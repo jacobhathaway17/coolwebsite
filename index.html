@@ -1,30 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Image Download Example</title>
-</head>
-<body>
-  <h1>Image Download Example</h1>
-  
-  <button onclick="downloadImage()">Download Image</button>
-
+  <title>Button Image Demo</title>
   <script>
-    function downloadImage() {
-      var imageUrl = 'https://raw.githubusercontent.com/jacobhathaway17/coolwebsite/main/path/to/coolman.jpg';
-      var fileName = 'coolman.jpg';
-      var mimeType = 'coolman/jpeg'; // Replace with the correct MIME type of your image
-
-      var element = document.createElement('a');
-      element.setAttribute('href', 'data:' + mimeType + ';base64,' + imageUrl);
-      element.setAttribute('download', fileName);
-
-      element.style.display = 'none';
-      document.body.appendChild(element);
-
-      element.click();
-
-      document.body.removeChild(element);
+    function displayImage() {
+      var image = document.getElementById("myImage");
+      image.style.display = "block";
     }
   </script>
+</head>
+<body>
+  <h1>Button Image Demo</h1>
+  <button onclick="displayImage()">Show Image</button>
+  <br><br>
+  <img id="myImage" src="https://raw.githubusercontent.com/jacobhathaway17/coolwebsite/main/path/to/coolman.jpg" style="display: none;">
 </body>
 </html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>File Download Example</title>
+</head>
+<body>
+  <h1>File Download Example</h1>
+  
+  <button onclick="downloadFile()">Download File</button>
+
+  <script>
+    function downloadFile() {
+      var fileData = 'This is the content of the file.'; // Replace with the actual file content
+      var fileName = 'dwayne.jfif'; // Replace with your desired file name
+
+      var element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(fileData));
+      element.setAttribute('download', fileName);
+
+      element.style.display = 'none';
+      document.body.appendChild(element);
+
+      element.click();
+
+      document.body.removeChild(element);
+    }
+  </script>
+</body>
+</html>

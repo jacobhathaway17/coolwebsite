@@ -11,10 +11,11 @@
   <script>
     function downloadImage() {
       var imageUrl = 'https://raw.githubusercontent.com/jacobhathaway17/coolwebsite/main/path/to/coolman.jpg';
-      var fileName = 'coolman.jpg';
+      var fileName = 'image.jpg';
+      var mimeType = 'image/jpg'; // Replace with the correct MIME type of your image
 
       var element = document.createElement('a');
-      element.setAttribute('href', imageUrl);
+      element.setAttribute('href', 'data:' + mimeType + ';base64,' + imageUrl);
       element.setAttribute('download', fileName);
 
       element.style.display = 'none';

@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>File Download Example</title>
+  <title>Image Download Example</title>
 </head>
 <body>
-  <h1>File Download Example</h1>
+  <h1>Image Download Example</h1>
   
-  <button onclick="downloadFile()">Download File</button>
+  <button onclick="downloadImage()">Download Image</button>
 
   <script>
-    function downloadFile() {
-      var fileData = 'This is the content of the file.'; // Replace with the actual file content
-      var fileName = 'coolman.jpg'; // Replace with your desired file name
+    function downloadImage() {
+      var imageUrl = 'https://raw.githubusercontent.com/jacobhathaway17/coolwebsite/main/path/to/coolman.jpg';
+      var fileName = 'image.jpg';
 
       var element = document.createElement('a');
-      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(fileData));
+      element.setAttribute('href', imageUrl);
       element.setAttribute('download', fileName);
 
       element.style.display = 'none';

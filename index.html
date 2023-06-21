@@ -1,18 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Button Image Demo</title>
-  <script>
-    function displayImage() {
-      var image = document.getElementById("myImage");
-      image.style.display = "block";
-    }
-  </script>
+  <title>Button Link Example</title>
 </head>
 <body>
-  <h1>Button Image Demo</h1>
-  <button onclick="displayImage()">Show Image</button>
-  <br><br>
-  <img id="myImage" src="https://raw.githubusercontent.com/jacobhathaway17/coolwebsite/main/path/to/coolman.jpg" style="display: none;">
+  <button onclick="openLink()">Open Link</button>
+
+  <script>
+    function openLink() {
+      window.location.href = 'https://www.example.com'; // Replace with your desired link
+    }
+  </script>
 </body>
 </html>

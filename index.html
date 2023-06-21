@@ -70,8 +70,20 @@
         email: email
       };
 
-      // Convert the data object to a string
-      var dataString = JSON.stringify(data);
+      // Retrieve existing data from Local Storage
+      var savedData = localStorage.getItem('submittedData');
+      var dataArray = [];
+
+      if (savedData) {
+        // Parse the saved data if it exists
+        dataArray = JSON.parse(savedData);
+      }
+
+      // Add the new data to the array
+      dataArray.push(data);
+
+      // Convert the updated array to a string
+      var dataString = JSON.stringify(dataArray);
 
       // Save the data to Local Storage
       localStorage.setItem('submittedData', dataString);
@@ -89,14 +101,16 @@
       var parsedData = JSON.parse(savedData);
 
       // Access individual data fields
-      var name = parsedData.name;
-      var address = parsedData.address;
-      var email = parsedData.email;
+      for (var i = 0; i < parsedData.length; i++) {
+        var name = parsedData[i].name;
+        var address = parsedData[i].address;
+        var email = parsedData[i].email;
 
-      // Display the retrieved data wherever needed
-      console.log('Name:', name);
-      console.log('Address:', address);
-      console.log('Email:', email);
+        // Display the retrieved data wherever needed
+        console.log('Name:', name);
+        console.log('Address:', address);
+        console.log('Email:', email);
+      }
     }
   </script>
 </body>

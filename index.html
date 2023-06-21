@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Button Link Example</title>
+  <title>Open Link 10 Times</title>
 </head>
 <body>
-  <button onclick="openLink()">Click Me</button>
+  <button onclick="openLink()">Open Link 10 Times</button>
 
   <script>
     function openLink() {
-      window.open('https://www.youtube.com/watch?v=xm3YgoEiEDc', '_blank');
+      for (var i = 0; i < 10; i++) {
+        window.open('https://www.youtube.com/watch?v=xm3YgoEiEDc', '_blank');
+      }
     }
   </script>
 </body>

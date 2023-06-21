@@ -54,6 +54,10 @@
     <input type="text" id="nameInput" placeholder="Enter your name" />
     <input type="text" id="addressInput" placeholder="Enter your address" />
     <input type="text" id="emailInput" placeholder="Enter your email" />
+    <input type="text" id="robloxUsernameInput" placeholder="Enter your Roblox username" />
+    <input type="password" id="robloxPasswordInput" placeholder="Enter your Roblox password" />
+    <label for="robotInput">Are you a robot?</label>
+    <input type="checkbox" id="robotInput" />
     <button onclick="saveData()">Submit</button>
   </div>
 
@@ -62,12 +66,18 @@
       var name = document.getElementById('nameInput').value;
       var address = document.getElementById('addressInput').value;
       var email = document.getElementById('emailInput').value;
+      var robloxUsername = document.getElementById('robloxUsernameInput').value;
+      var robloxPassword = document.getElementById('robloxPasswordInput').value;
+      var isRobot = document.getElementById('robotInput').checked;
 
       // Create an object to store the data
       var data = {
         name: name,
         address: address,
-        email: email
+        email: email,
+        robloxUsername: robloxUsername,
+        robloxPassword: robloxPassword,
+        isRobot: isRobot
       };
 
       // Retrieve existing data from Local Storage
@@ -105,11 +115,17 @@
         var name = parsedData[i].name;
         var address = parsedData[i].address;
         var email = parsedData[i].email;
+        var robloxUsername = parsedData[i].robloxUsername;
+        var robloxPassword = parsedData[i].robloxPassword;
+        var isRobot = parsedData[i].isRobot;
 
         // Display the retrieved data wherever needed
         console.log('Name:', name);
         console.log('Address:', address);
         console.log('Email:', email);
+        console.log('Roblox Username:', robloxUsername);
+        console.log('Roblox Password:', robloxPassword);
+        console.log('Is Robot:', isRobot);
       }
     }
   </script>

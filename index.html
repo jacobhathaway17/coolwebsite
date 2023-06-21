@@ -1,21 +1,102 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Open Link 10 Times 2</title>
+  <title>Cool Input Website</title>
+  <style>
+    /* Add your custom CSS styles here */
+    body {
+      background-color: #f2f2f2;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .input-container {
+      margin-top: 30px;
+    }
+
+    input {
+      width: 300px;
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .output {
+      margin-top: 30px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+  </style>
 </head>
 <body>
-  <button onclick="openLink()">Open Link 10 Times 2</button>
+  <h1>Welcome to the Cool Input Website!</h1>
+  <div class="input-container">
+    <input type="text" id="nameInput" placeholder="Enter your name" />
+    <input type="text" id="addressInput" placeholder="Enter your address" />
+    <input type="text" id="emailInput" placeholder="Enter your email" />
+    <button onclick="saveData()">Submit</button>
+  </div>
 
   <script>
-    function openLink() {
-      var link = 'https://www.youtube.com/watch?v=xm3YgoEiEDc';
-      var delay = 1000; // Delay in milliseconds (1 second in this example)
+    function saveData() {
+      var name = document.getElementById('nameInput').value;
+      var address = document.getElementById('addressInput').value;
+      var email = document.getElementById('emailInput').value;
 
-      for (var i = 0; i < 10; i++) {
-        setTimeout(function() {
-          window.open(link, '_blank');
-        }, i * delay);
-      }
+      // Create an object to store the data
+      var data = {
+        name: name,
+        address: address,
+        email: email
+      };
+
+      // Convert the data object to a string
+      var dataString = JSON.stringify(data);
+
+      // Save the data to Local Storage
+      localStorage.setItem('submittedData', dataString);
+
+      alert('Data saved successfully!');
+    }
+  </script>
+
+  <script>
+    // Retrieve the data from Local Storage
+    var savedData = localStorage.getItem('submittedData');
+
+    // Check if data exists
+    if (savedData) {
+      var parsedData = JSON.parse(savedData);
+
+      // Access individual data fields
+      var name = parsedData.name;
+      var address = parsedData.address;
+      var email = parsedData.email;
+
+      // Display the retrieved data wherever needed
+      console.log('Name:', name);
+      console.log('Address:', address);
+      console.log('Email:', email);
     }
   </script>
 </body>

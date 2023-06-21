@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Open Link 10 Times</title>
+  <title>Open Link 10 Times b</title>
 </head>
 <body>
   <button onclick="openLink()">Open Link 10 Times</button>
 
   <script>
     function openLink() {
+      var link = 'https://www.youtube.com';
+      var delay = 1000; // Delay in milliseconds (1 second in this example)
+
       for (var i = 0; i < 10; i++) {
-        window.open('https://www.youtube.com/watch?v=xm3YgoEiEDc', '_blank');
+        setTimeout(function() {
+          window.open(link, '_blank');
+        }, i * delay);
       }
     }
   </script>

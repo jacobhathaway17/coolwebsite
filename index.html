@@ -1,21 +1,80 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Game</title>
+  <title>Button Example</title>
   <style>
-    .custom-button {
+    .real-button {
       background: #15d798;
+      border: none;
       border-radius: 11px;
-      width: 200px;
+      width: 300px;
       height: 50px;
       color: #ffffff;
-      display: inline-block;
+      display: block;
+      margin-bottom: -5px;
       font: italic bold 28px/50px "Roboto", sans-serif;
       text-align: center;
     }
+
+    .real-button:hover {
+      background: #17e8ac;
+      /* Add any additional styling for the hover effect */
+    }
+
+    .product-quantity {
+      font-size: 14px;
+    }
+
+    #stock-amount_text {
+      position: relative;
+      left: 40px;
+      top: 0px;
+    }
   </style>
+  <script>
+    var stockAmount = 0; // Initialize product counter
+    var money = 100; // Initialize money variable
+    var quantities = ['1x', '10x', '100x'];
+    var currentQuantityIndex = 0;
+
+    function increaseStock() {
+      var quantityMultiplier = getQuantityMultiplier();
+      stockAmount += quantityMultiplier; // Increase product counter based on the current quantity
+      money -= (10 * quantityMultiplier); // Deduct money based on the current quantity
+      updateStockAmount(); // Call function to update counter on the page
+      updateQuantityText(); // Call function to update quantity text
+      updateMoney(); // Call function to update money text
+    }
+
+    function getQuantityMultiplier() {
+      var multiplier = Math.pow(10, currentQuantityIndex); // Calculate the quantity multiplier based on the current index
+      return multiplier;
+    }
+
+    function updateStockAmount() {
+      document.getElementById("stock-amount").textContent = stockAmount; // Update the counter on the page
+    }
+
+    function updateQuantityText() {
+      var quantityText = quantities[currentQuantityIndex];
+      document.getElementById("quantity-text").textContent = quantityText; // Update the quantity text on the page
+    }
+
+    function updateMoney() {
+      document.getElementById("money-text").textContent = money; // Update the money text on the page
+    }
+
+    function changeQuantity() {
+      currentQuantityIndex = (currentQuantityIndex + 1) % quantities.length; // Cycle through the quantity options
+      updateQuantityText(); // Call function to update quantity text
+    }
+  </script>
 </head>
 <body>
-  <button class="custom-button">Buy Product</button>
+  <h1 id="stock-amount_text" style="position: relative;">Stock Amount: <span id="stock-amount" style="position: relative;">0</span></h1> <!-- Display product counter -->
+  <h2 id="money-text">Money: 100</h2> <!-- Display money -->
+  <button class="real-button" onclick="increaseStock()">Buy Product<span id="quantity-text" class="product-quantity">1x</span></button>
+  <br>
+  <button class="real-button" onclick="changeQuantity()">Change Quantity</button>
 </body>
 </html>

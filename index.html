@@ -12,6 +12,7 @@
       color: #ffffff;
       display: block;
       margin-bottom: -5px;
+	  margin-left: 40px;
       font: italic bold 28px/50px "Roboto", sans-serif;
       text-align: center;
     }
@@ -30,26 +31,49 @@
       left: 40px;
       top: 0px;
     }
+	
+	#money-amount_text {
+		position: relative;
+		left: 40px;
+		top: -10px;
+	}
   </style>
   <script>
     var stockAmount = 0; // Initialize product counter
-    var money = 100; // Initialize money variable
-    var quantities = ['1x', '10x', '100x'];
+    var money = 10; // Initialize money variable
+    var quantities = ['1x', '10x', '100x', 'Max'];
     var currentQuantityIndex = 0;
 
     function increaseStock() {
-      var quantityMultiplier = getQuantityMultiplier();
-      stockAmount += quantityMultiplier; // Increase product counter based on the current quantity
-      money -= (10 * quantityMultiplier); // Deduct money based on the current quantity
-      updateStockAmount(); // Call function to update counter on the page
-      updateQuantityText(); // Call function to update quantity text
-      updateMoney(); // Call function to update money text
-    }
+	  var quantityMultiplier = getQuantityMultiplier();
+	  if (quantityMultiplier === 'Max') {
+		quantityMultiplier = Math.floor(money / 10); // Calculate the maximum quantity based on available money
+	  }
+	  var totalPrice = 10 * quantityMultiplier; // Calculate the total price based on the current quantity
+	  if (quantityMultiplier > 0) {
+	    if (money >= totalPrice) {
+	      stockAmount += quantityMultiplier; // Increase product counter based on the current quantity
+	      money -= totalPrice; // Deduct money based on the current quantity
+	      updateStockAmount(); // Call function to update counter on the page
+	      updateQuantityText(); // Call function to update quantity text
+	      updateMoney(); // Call function to update money text
+	    } else {
+	      alert("Insufficient funds!"); // Display an alert message if the user doesn't have enough money
+	    }
+	  } else {
+	    alert("Cannot buy 0 stock!"); // Display an alert message if the selected quantity is 0
+	  }
+	}
 
     function getQuantityMultiplier() {
-      var multiplier = Math.pow(10, currentQuantityIndex); // Calculate the quantity multiplier based on the current index
-      return multiplier;
-    }
+	  if (currentQuantityIndex === 3) {
+		return "Max";
+	  } else {
+		var multiplier = Math.pow(10, currentQuantityIndex); // Calculate the quantity multiplier based on the current index
+		return multiplier; // Returns the calculated multiplier
+	  }
+	}
+
 
     function updateStockAmount() {
       document.getElementById("stock-amount").textContent = stockAmount; // Update the counter on the page
@@ -68,13 +92,22 @@
       currentQuantityIndex = (currentQuantityIndex + 1) % quantities.length; // Cycle through the quantity options
       updateQuantityText(); // Call function to update quantity text
     }
+
+    // Function to increase money every second
+    function increaseMoney() {
+      money += stockAmount; // Increase money based on the current stock amount
+      updateMoney(); // Call function to update money text
+    }
+
+    // Call increaseMoney function every second
+    setInterval(increaseMoney, 1000);
   </script>
 </head>
 <body>
   <h1 id="stock-amount_text" style="position: relative;">Stock Amount: <span id="stock-amount" style="position: relative;">0</span></h1> <!-- Display product counter -->
-  <h2 id="money-text">Money: 100</h2> <!-- Display money -->
-  <button class="real-button" onclick="increaseStock()">Buy Product<span id="quantity-text" class="product-quantity">1x</span></button>
+  <h2 id="money-amount_text" style="position: relative;">Money: <span id="money-text" style="position: relative;">10</span></h2> <!-- Display money -->
+  <button class="real-button" onclick="increaseStock()">Buy Product</button>
   <br>
-  <button class="real-button" onclick="changeQuantity()">Change Quantity</button>
+  <button class="real-button" onclick="changeQuantity()">Change Quantity<span id="quantity-text" class="product-quantity">1x</span></button>
 </body>
 </html>

@@ -1,146 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Button Example</title>
-  <style>
-    .real-button {
-      background: #15d798;
-      border: none;
-      border-radius: 11px;
-      width: 300px;
-      height: 50px;
-      color: #ffffff;
-      display: block;
-      margin-bottom: -5px;
-	  margin-left: 40px;
-      font: italic bold 28px/50px "Roboto", sans-serif;
-      text-align: center;
-    }
-
-    .real-button:hover {
-      background: #17e8ac;
-      /* Add any additional styling for the hover effect */
-    }
-
-    .product-quantity {
-      font-size: 14px;
-    }
-
-    #stock-amount_text {
-      position: relative;
-      left: 40px;
-      top: 0px;
-    }
-	
-	#money-amount_text {
-		position: relative;
-		left: 40px;
-		top: -10px;
-	}
-
-    #price-text {
-      font-size: 18px;
-      margin-top: 5px;
-      text-align: center;
-    }
-  </style>
-  <script>
-    var stockAmount = 0; // Initialize product counter
-    var money = 10; // Initialize money variable
-    var quantities = ['1x', '10x', '100x', 'Max'];
-    var currentQuantityIndex = 0;
-    var basePrice = 10; // Initial base price
-    var priceIncrement = 1.2; // Price increment factor
-    var priceMultiplier = 1; // Initial price multiplier
-    var stocksBought = 0; // Counter for number of stocks bought
-
-    function increaseStock() {
-      var quantityMultiplier = getQuantityMultiplier();
-      if (quantityMultiplier === 'Max') {
-        quantityMultiplier = Math.floor(money / calculateTotalPrice(1)); // Calculate the maximum quantity based on available money
-      }
-      var totalPrice = calculateTotalPrice(quantityMultiplier); // Calculate the total price based on the current quantity
-      if (quantityMultiplier > 0) {
-        if (money >= totalPrice) {
-          stockAmount += quantityMultiplier; // Increase product counter based on the current quantity
-          money -= totalPrice; // Deduct money based on the current quantity
-          updateStockAmount(); // Call function to update counter on the page
-          updateQuantityText(); // Call function to update quantity text
-          updateMoney(); // Call function to update money text
-          updatePrice(); // Call function to update price text
-          stocksBought += quantityMultiplier; // Increase the stocks bought counter
-          checkPriceIncrement(); // Check if the price needs to be incremented
-        } else {
-          alert("Insufficient funds!"); // Display an alert message if the user doesn't have enough money
-        }
-      } else {
-        alert("Cannot buy 0 stock!"); // Display an alert message if the selected quantity is 0
-      }
-    }
-
-    function getQuantityMultiplier() {
-      if (currentQuantityIndex === 3) {
-        return "Max";
-      } else {
-        var multiplier = Math.pow(10, currentQuantityIndex); // Calculate the quantity multiplier based on the current index
-        return multiplier; // Returns the calculated multiplier
-      }
-    }
-
-    function updateStockAmount() {
-      document.getElementById("stock-amount").textContent = stockAmount.toFixed(2); // Update the counter on the page
-    }
-
-    function updateQuantityText() {
-      var quantityText = quantities[currentQuantityIndex];
-      document.getElementById("quantity-text").textContent = quantityText; // Update the quantity text on the page
-    }
-
-    function updateMoney() {
-      document.getElementById("money-text").textContent = money.toFixed(2); // Update the money text on the page
-    }
-
-    function calculateTotalPrice(quantityMultiplier) {
-      // Calculate the total price based on the quantity multiplier and current price multiplier
-      var totalPrice = basePrice * quantityMultiplier * priceMultiplier;
-      return totalPrice;
-    }
-
-    function updatePrice() {
-      var quantityMultiplier = getQuantityMultiplier();
-      var totalPrice = calculateTotalPrice(quantityMultiplier);
-      document.getElementById("price-text").textContent = "Price: " + totalPrice.toFixed(2) + " money"; // Update the price text on the page
-    }
-
-    function checkPriceIncrement() {
-      if (stocksBought % 5 === 0 && stocksBought > 0) {
-        priceMultiplier *= priceIncrement; // Increase the price multiplier by the increment factor
-      }
-    }
-
-    function changeQuantity() {
-      currentQuantityIndex = (currentQuantityIndex + 1) % quantities.length; // Cycle through the quantity options
-      updateQuantityText(); // Call function to update quantity text
-      updatePrice(); // Call function to update price text
-    }
-
-    // Function to increase money every second
-    function increaseMoney() {
-      money += stockAmount; // Increase money based on the current stock amount
-      updateMoney(); // Call function to update money text
-      updatePrice(); // Call function to update price text
-    }
-
-    // Call increaseMoney function every second
-    setInterval(increaseMoney, 1000);
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Messaging System</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1 id="stock-amount_text" style="position: relative;">Stock Amount: <span id="stock-amount" style="position: relative;">0</span></h1> <!-- Display product counter -->
-  <h2 id="money-amount_text" style="position: relative;">Money: <span id="money-text" style="position: relative;">10</span></h2> <!-- Display money -->
-  <button class="real-button" onclick="increaseStock()">Buy Product</button>
-  <br>
-  <button class="real-button" onclick="changeQuantity()">Change Quantity<span id="quantity-text" class="product-quantity">1x</span></button>
-  <p id="price-text">Price: 10.00 money</p> <!-- Display the price -->
+    <div class="message-container" id="message-container">
+        <!-- Messages will be displayed here -->
+    </div>
+    <div class="input-container">
+        <input type="text" id="message-input" placeholder="Type a message...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calendar App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="arrow" onclick="prevMonth()">&lt;</button>
+            <h1 class="month" id="currentMonth"></h1>
+            <span id="currentYear"></span>
+            <button class="arrow" onclick="nextMonth()">&gt;</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                    <th>Sun</th>
+                </tr>
+            </thead>
+            <tbody id="calendarBody"></tbody>
+        </table>
+    </div>
+    <div class="expanded-box" id="expandedBox">
+        <button class="escape-button" onclick="hideExpandedBox()">&times;</button>
+        <div id="expandedContent"></div>
+        <button class="edit-button" onclick="openEditBox()">Edit</button>
+    </div>
+    <div class="edit-box" id="editBox">
+        <button class="escape-button" onclick="hideEditBox()">&times;</button>
+        <h2>Edit Event</h2>
+        <form>
+            <label for="eventName">Event Name:</label>
+            <input type="text" id="eventName" name="eventName" required>
+            <label for="eventDate">Event Date:</label>
+            <input type="date" id="eventDate" name="eventDate" required>
+            <button type="submit">Save</button>
+        </form>
+    </div>
+    <div class="button-container">
+        <button class="new-window-button" onclick="openNewWindow('Window 1')">Open Window 1</button>
+        <button class="new-window-button" onclick="openNewWindow('Window 2')">Open Window 2</button>
+        <button class="new-window-button" onclick="openNewWindow('Window 3')">Open Window 3</button>
+    </div>
+    <script>
+        var year = 2023;
+        var month = 6;
+        var currentMonth = new Date(year, month - 1, 1);
+        updateCalendar();
+
+        function prevMonth() {
+            currentMonth.setMonth(currentMonth.getMonth() - 1);
+            updateCalendar();
+        }
+
+        function nextMonth() {
+            currentMonth.setMonth(currentMonth.getMonth() + 1);
+            updateCalendar();
+        }
+
+        function updateCalendar() {
+            var calendarBody = document.getElementById("calendarBody");
+            calendarBody.innerHTML = "";
+            document.getElementById("currentMonth").innerHTML = currentMonth.toLocaleString('default', { month: 'long' });
+            document.getElementById("currentYear").innerHTML = currentMonth.getFullYear();
+
+            var firstDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
+            var lastDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
+            var startDate = firstDay.getDate();
+            var endDate = lastDay.getDate();
+
+            var date = 1;
+            var row = document.createElement("tr");
+
+            for (var i = 0; i < 7; i++) {
+                if (i >= firstDay.getDay()) {
+                    var cell = document.createElement("td");
+                    cell.innerHTML = date;
+                    cell.onclick = function () {
+                        showExpandedBox(this.innerHTML);
+                    };
+
+                    if (currentMonth.getMonth() === new Date().getMonth() && date === new Date().getDate()) {
+                        cell.classList.add("today");
+                    }
+
+                    row.appendChild(cell);
+                    date++;
+                } else {
+                    var emptyCell = document.createElement("td");
+                    row.appendChild(emptyCell);
+                }
+            }
+
+            calendarBody.appendChild(row);
+
+            while (date <= endDate) {
+                var newRow = document.createElement("tr");
+
+                for (var j = 0; j < 7; j++) {
+                    if (date > endDate) {
+                        break;
+                    }
+
+                    var newCell = document.createElement("td");
+                    newCell.innerHTML = date;
+                    newCell.onclick = function () {
+                        showExpandedBox(this.innerHTML);
+                    };
+
+                    if (currentMonth.getMonth() === new Date().getMonth() && date === new Date().getDate()) {
+                        newCell.classList.add("today");
+                    }
+
+                    newRow.appendChild(newCell);
+                    date++;
+                }
+
+                calendarBody.appendChild(newRow);
+            }
+        }
+
+        function showExpandedBox(date) {
+            var expandedBox = document.getElementById("expandedBox");
+            var expandedContent = document.getElementById("expandedContent");
+            expandedContent.innerHTML = "You clicked on " + date + " " + currentMonth.toLocaleString('default', { month: 'long' });
+            expandedBox.classList.add("fade");
+            expandedBox.style.display = "block";
+            setTimeout(function () {
+                expandedBox.style.opacity = "1";
+            }, 10);
+        }
+
+        function hideExpandedBox() {
+            var expandedBox = document.getElementById("expandedBox");
+            expandedBox.style.opacity = "0";
+            setTimeout(function () {
+                expandedBox.style.display = "none";
+                expandedBox.classList.remove("fade");
+            }, 300);
+        }
+
+        function openEditBox() {
+            var editBox = document.getElementById("editBox");
+            editBox.classList.add("fadeIn");
+            editBox.style.display = "block";
+            setTimeout(function () {
+                editBox.style.opacity = "1";
+            }, 10);
+        }
+
+        function hideEditBox() {
+            var editBox = document.getElementById("editBox");
+            editBox.style.opacity = "0";
+            setTimeout(function () {
+                editBox.style.display = "none";
+                editBox.classList.remove("fadeIn");
+            }, 300);
+        }
+
+        function openNewWindow(windowName) {
+            window.open('', windowName, 'width=400,height=300');
+            var newWindow = window.open('', windowName);
+            newWindow.document.write(`
+                <html>
+                <head>
+                    <title>${windowName}</title>
+                </head>
+                <body>
+                    <h2>${windowName}</h2>
+                    <form>
+                        <label for="textbox">Text Box:</label>
+                        <input type="text" id="textbox" name="textbox">
+                    </form>
+                </body>
+                </html>
+            `);
+        }
+    </script>
+</body>
+</html>
